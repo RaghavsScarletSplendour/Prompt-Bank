@@ -15,7 +15,8 @@ export async function GET() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("Database error:", error);
+    return NextResponse.json({ error: "Failed to fetch prompts" }, { status: 500 });
   }
 
   return NextResponse.json({ prompts: data });
@@ -27,17 +28,51 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { name, tags, content } = await req.json();
+  try {
+    const body = await req.json();
+    const { name, tags, content } = body;
 
-  const { data, error } = await supabase
-    .from("prompts")
-    .insert({ user_id: userId, name, tags, content })
-    .select()
-    .single();
+    // Input validation
+    if (!name || typeof name !== 'string' || name.trim().length === 0) {
+      return NextResponse.json({ error: "Name is required" }, { status: 400 });
+    }
+    
+    if (!content || typeof content !== 'string' || content.trim().length === 0) {
+      return NextResponse.json({ error: "Content is required" }, { status: 400 });
+    }
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // Length limits
+    if (name.length > 100) {
+      return NextResponse.json({ error: "Name too long (max 100 characters)" }, { status: 400 });
+    }
+
+    if (content.length > 10000) {
+      return NextResponse.json({ error: "Content too long (max 10,000 characters)" }, { status: 400 });
+    }
+
+    if (tags && typeof tags === 'string' && tags.length > 500) {
+      return NextResponse.json({ error: "Tags too long (max 500 characters)" }, { status: 400 });
+    }
+
+    // Sanitize inputs
+    const sanitizedName = name.trim();
+    const sanitizedTags = tags && typeof tags === 'string' ? tags.trim() : null;
+    const sanitizedContent = content.trim();
+
+    const { data, error } = await supabase
+      .from("prompts")
+      .insert({ user_id: userId, name: sanitizedName, tags: sanitizedTags, content: sanitizedContent })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Database error:", error);
+      return NextResponse.json({ error: "Failed to save prompt" }, { status: 500 });
+    }
+
+    return NextResponse.json({ prompt: data });
+  } catch (error) {
+    console.error("Request error:", error);
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-
-  return NextResponse.json({ prompt: data });
 }

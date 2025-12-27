@@ -13,27 +13,62 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
   const [tags, setTags] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    
+    // Client-side validation
+    if (!name.trim()) {
+      setError("Name is required");
+      return;
+    }
+    
+    if (name.length > 100) {
+      setError("Name must be 100 characters or less");
+      return;
+    }
+    
+    if (!content.trim()) {
+      setError("Content is required");
+      return;
+    }
+    
+    if (content.length > 10000) {
+      setError("Content must be 10,000 characters or less");
+      return;
+    }
+    
+    if (tags && tags.length > 500) {
+      setError("Tags must be 500 characters or less");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const res = await fetch("/api/prompts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, tags, content }),
+        body: JSON.stringify({ name: name.trim(), tags: tags.trim(), content: content.trim() }),
       });
 
       if (res.ok) {
         setName("");
         setTags("");
         setContent("");
+        setError("");
         onSuccess();
         onClose();
+      } else {
+        const errorData = await res.json();
+        setError(errorData.error || "Failed to save prompt");
       }
+    } catch (err) {
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -43,6 +78,11 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
         <h2 className="text-xl font-semibold mb-4">Add New Prompt</h2>
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -55,6 +95,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               required
               className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="My awesome prompt"
+              maxLength={100}
             />
           </div>
           <div>
@@ -67,6 +108,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               onChange={(e) => setTags(e.target.value)}
               className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="coding, writing, creative"
+              maxLength={500}
             />
           </div>
           <div>
@@ -80,6 +122,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               rows={5}
               className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your prompt here..."
+              maxLength={10000}
             />
           </div>
           <div className="flex gap-3 justify-end">
