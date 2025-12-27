@@ -53,7 +53,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="My awesome prompt"
             />
           </div>
@@ -65,7 +65,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               type="text"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="coding, writing, creative"
             />
           </div>
@@ -78,7 +78,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               onChange={(e) => setContent(e.target.value)}
               required
               rows={5}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your prompt here..."
             />
           </div>
