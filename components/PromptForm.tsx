@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PROMPT_LIMITS, validatePromptInput } from "@/lib/validations";
 
 interface PromptFormProps {
   isOpen: boolean;
@@ -20,30 +21,11 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    
-    // Client-side validation
-    if (!name.trim()) {
-      setError("Name is required");
-      return;
-    }
-    
-    if (name.length > 100) {
-      setError("Name must be 100 characters or less");
-      return;
-    }
-    
-    if (!content.trim()) {
-      setError("Content is required");
-      return;
-    }
-    
-    if (content.length > 10000) {
-      setError("Content must be 10,000 characters or less");
-      return;
-    }
-    
-    if (tags && tags.length > 500) {
-      setError("Tags must be 500 characters or less");
+
+    // Client-side validation using shared logic
+    const validation = validatePromptInput({ name, content, tags });
+    if (!validation.success) {
+      setError(validation.error);
       return;
     }
 
@@ -95,7 +77,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               required
               className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="My awesome prompt"
-              maxLength={100}
+              maxLength={PROMPT_LIMITS.name.maxLength}
             />
           </div>
           <div>
@@ -108,7 +90,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               onChange={(e) => setTags(e.target.value)}
               className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="coding, writing, creative"
-              maxLength={500}
+              maxLength={PROMPT_LIMITS.tags.maxLength}
             />
           </div>
           <div>
@@ -122,7 +104,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess }: PromptFormPro
               rows={5}
               className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your prompt here..."
-              maxLength={10000}
+              maxLength={PROMPT_LIMITS.content.maxLength}
             />
           </div>
           <div className="flex gap-3 justify-end">

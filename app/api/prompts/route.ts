@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { supabase } from "@/lib/supabase";
 import { NextResponse } from "next/server";
+import { validatePromptInput } from "@/lib/validations";
 
 export async function GET() {
   const { userId } = await auth();
@@ -30,38 +31,17 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-    const { name, tags, content } = body;
+    const validation = validatePromptInput(body);
 
-    // Input validation
-    if (!name || typeof name !== 'string' || name.trim().length === 0) {
-      return NextResponse.json({ error: "Name is required" }, { status: 400 });
-    }
-    
-    if (!content || typeof content !== 'string' || content.trim().length === 0) {
-      return NextResponse.json({ error: "Content is required" }, { status: 400 });
+    if (!validation.success) {
+      return NextResponse.json({ error: validation.error }, { status: 400 });
     }
 
-    // Length limits
-    if (name.length > 100) {
-      return NextResponse.json({ error: "Name too long (max 100 characters)" }, { status: 400 });
-    }
-
-    if (content.length > 10000) {
-      return NextResponse.json({ error: "Content too long (max 10,000 characters)" }, { status: 400 });
-    }
-
-    if (tags && typeof tags === 'string' && tags.length > 500) {
-      return NextResponse.json({ error: "Tags too long (max 500 characters)" }, { status: 400 });
-    }
-
-    // Sanitize inputs
-    const sanitizedName = name.trim();
-    const sanitizedTags = tags && typeof tags === 'string' ? tags.trim() : null;
-    const sanitizedContent = content.trim();
+    const { name, content, tags } = validation.data;
 
     const { data, error } = await supabase
       .from("prompts")
-      .insert({ user_id: userId, name: sanitizedName, tags: sanitizedTags, content: sanitizedContent })
+      .insert({ user_id: userId, name, tags, content })
       .select()
       .single();
 
