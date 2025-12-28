@@ -17,6 +17,11 @@ export default function Home() {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredPrompts = prompts.filter((p) =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const fetchPrompts = async () => {
     try {
@@ -44,18 +49,27 @@ export default function Home() {
       <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-semibold text-gray-800">Your Prompts</h2>
-          <button
+          <div className="flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Search prompts..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <button
             onClick={() => setIsFormOpen(true)}
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
           >
             + Add Prompt
           </button>
+          </div>
         </div>
 
         {loading ? (
           <div className="text-center py-12 text-gray-500">Loading...</div>
         ) : (
-          <PromptGallery prompts={prompts} onRefresh={fetchPrompts} />
+          <PromptGallery prompts={filteredPrompts} onRefresh={fetchPrompts} />
         )}
       </main>
 
