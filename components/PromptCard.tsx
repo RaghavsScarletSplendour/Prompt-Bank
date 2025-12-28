@@ -20,6 +20,7 @@ interface PromptCardProps {
 export default function PromptCard({ prompt, onDelete, onEdit }: PromptCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [startInEditMode, setStartInEditMode] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const tags = prompt.tags ? prompt.tags.split(",").map((t) => t.trim()) : [];
 
@@ -38,7 +39,10 @@ export default function PromptCard({ prompt, onDelete, onEdit }: PromptCardProps
     <>
       <div
         className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow relative cursor-pointer"
-        onClick={() => setDetailOpen(true)}
+        onClick={() => {
+          setStartInEditMode(false);
+          setDetailOpen(true);
+        }}
       >
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-lg text-gray-900">{prompt.name}</h3>
@@ -53,6 +57,16 @@ export default function PromptCard({ prompt, onDelete, onEdit }: PromptCardProps
             </button>
             {menuOpen && (
               <div className="absolute right-0 mt-1 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setStartInEditMode(true);
+                    setDetailOpen(true);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Edit
+                </button>
                 <button
                   onClick={() => {
                     setMenuOpen(false);
@@ -87,6 +101,8 @@ export default function PromptCard({ prompt, onDelete, onEdit }: PromptCardProps
         onClose={() => setDetailOpen(false)}
         prompt={prompt}
         onSave={onEdit}
+        onDelete={() => onDelete(prompt.id)}
+        initialEditMode={startInEditMode}
       />
     </>
   );

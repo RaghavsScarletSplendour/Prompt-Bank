@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { PROMPT_LIMITS, validatePromptInput } from "@/lib/validations";
 import Modal from "./Modal";
 
@@ -17,24 +17,40 @@ interface PromptDetailModalProps {
   onClose: () => void;
   prompt: Prompt;
   onSave?: () => void;
+  onDelete?: () => void;
+  initialEditMode?: boolean;
 }
 
-export default function PromptDetailModal({ isOpen, onClose, prompt, onSave }: PromptDetailModalProps) {
-  const [isEditing, setIsEditing] = useState(false);
+export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onDelete, initialEditMode = false }: PromptDetailModalProps) {
+  const [isEditing, setIsEditing] = useState(initialEditMode);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [name, setName] = useState(prompt.name);
   const [tagsInput, setTagsInput] = useState(prompt.tags || "");
   const [content, setContent] = useState(prompt.content);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const menuRef = useRef<HTMLDivElement>(null);
 
   // Reset form when prompt changes or modal opens
   useEffect(() => {
     setName(prompt.name);
     setTagsInput(prompt.tags || "");
     setContent(prompt.content);
-    setIsEditing(false);
+    setIsEditing(initialEditMode);
     setError("");
-  }, [prompt, isOpen]);
+    setMenuOpen(false);
+  }, [prompt, isOpen, initialEditMode]);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const tags = prompt.tags ? prompt.tags.split(",").map((t) => t.trim()) : [];
   const createdDate = new Date(prompt.created_at).toLocaleDateString("en-US", {
@@ -113,14 +129,51 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave }: P
           ) : (
             <h2 className="text-xl font-semibold text-gray-900">{prompt.name}</h2>
           )}
-          <button
-            onClick={onClose}
-            className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-gray-700"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-1">
+            {!isEditing && (
+              <div className="relative" ref={menuRef}>
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-gray-700"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                  </svg>
+                </button>
+                {menuOpen && (
+                  <div className="absolute right-0 mt-1 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                    <button
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setIsEditing(true);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        setMenuOpen(false);
+                        onClose();
+                        onDelete?.();
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+            <button
+              onClick={onClose}
+              className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-gray-700"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {isEditing ? (
@@ -170,33 +223,24 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave }: P
           <div className="text-sm text-gray-500">
             Created: {createdDate}
           </div>
-          <div className="flex gap-2">
-            {isEditing ? (
-              <>
-                <button
-                  onClick={handleCancel}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800"
-                  disabled={loading}
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSave}
-                  disabled={loading}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-                >
-                  {loading ? "Saving..." : "Save"}
-                </button>
-              </>
-            ) : (
+          {isEditing && (
+            <div className="flex gap-2">
               <button
-                onClick={() => setIsEditing(true)}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200"
+                onClick={handleCancel}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                disabled={loading}
               >
-                Edit
+                Cancel
               </button>
-            )}
-          </div>
+              <button
+                onClick={handleSave}
+                disabled={loading}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              >
+                {loading ? "Saving..." : "Save"}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </Modal>

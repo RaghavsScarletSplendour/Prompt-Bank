@@ -133,6 +133,19 @@ Added clickable prompt cards that open a centered modal showing full prompt cont
 - Validation with error messages
 - Loading state while saving
 
+### Update: 3-Dot Menu Consolidation
+
+Moved Edit/Delete to 3-dot menu in both card and expanded modal:
+
+**Changes:**
+- `PromptCard.tsx` - Added Edit to 3-dot menu, opens modal in edit mode
+- `PromptDetailModal.tsx` - Added 3-dot menu (Edit/Delete), removed standalone Edit button
+
+**Flow:**
+- Card view: 3-dot menu → Edit or Delete
+- Expanded modal: Same 3-dot menu → Edit or Delete
+- Edit mode: Save/Cancel buttons appear at bottom
+
 ---
 
 ## Security Review (Dec 28, 2025)
