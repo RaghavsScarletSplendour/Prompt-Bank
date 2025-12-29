@@ -9,15 +9,17 @@ interface Prompt {
   tags: string | null;
   content: string;
   created_at: string;
+  similarity?: number;
 }
 
 interface PromptCardProps {
   prompt: Prompt;
   onDelete: (id: string) => void;
   onEdit?: () => void;
+  showSimilarity?: boolean;
 }
 
-export default function PromptCard({ prompt, onDelete, onEdit }: PromptCardProps) {
+export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity }: PromptCardProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   const [startInEditMode, setStartInEditMode] = useState(false);
@@ -45,7 +47,14 @@ export default function PromptCard({ prompt, onDelete, onEdit }: PromptCardProps
         }}
       >
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-semibold text-lg text-gray-900">{prompt.name}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="font-semibold text-lg text-gray-900">{prompt.name}</h3>
+            {showSimilarity && prompt.similarity !== undefined && (
+              <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded">
+                {Math.round(prompt.similarity * 100)}% match
+              </span>
+            )}
+          </div>
           <div className="relative" ref={menuRef} onClick={(e) => e.stopPropagation()}>
             <button
               onClick={() => setMenuOpen(!menuOpen)}

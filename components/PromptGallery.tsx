@@ -10,14 +10,16 @@ interface Prompt {
   tags: string | null;
   content: string;
   created_at: string;
+  similarity?: number;
 }
 
 interface PromptGalleryProps {
   prompts: Prompt[];
   onRefresh: () => void;
+  showSimilarity?: boolean;
 }
 
-export default function PromptGallery({ prompts, onRefresh }: PromptGalleryProps) {
+export default function PromptGallery({ prompts, onRefresh, showSimilarity }: PromptGalleryProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
 
@@ -63,7 +65,7 @@ export default function PromptGallery({ prompts, onRefresh }: PromptGalleryProps
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {prompts.map((prompt) => (
-          <PromptCard key={prompt.id} prompt={prompt} onDelete={handleDeleteClick} onEdit={onRefresh} />
+          <PromptCard key={prompt.id} prompt={prompt} onDelete={handleDeleteClick} onEdit={onRefresh} showSimilarity={showSimilarity} />
         ))}
       </div>
       <ConfirmDialog

@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { supabase } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 import { validatePromptInput } from "@/lib/validations";
+import { generateEmbedding, getEmbeddingText } from "@/lib/embeddings";
 
 export async function GET() {
   const { userId } = await auth();
@@ -39,9 +40,18 @@ export async function POST(req: Request) {
 
     const { name, content, tags } = validation.data;
 
+    // Generate embedding for semantic search (graceful degradation if it fails)
+    let embedding: number[] | null = null;
+    try {
+      const embeddingText = getEmbeddingText(name, content, tags);
+      embedding = await generateEmbedding(embeddingText);
+    } catch (error) {
+      console.error("Failed to generate embedding:", error);
+    }
+
     const { data, error } = await supabase
       .from("prompts")
-      .insert({ user_id: userId, name, tags, content })
+      .insert({ user_id: userId, name, tags, content, embedding })
       .select()
       .single();
 
@@ -81,9 +91,18 @@ export async function PUT(req: Request) {
 
     const { name, content, tags } = validation.data;
 
+    // Regenerate embedding for semantic search (graceful degradation if it fails)
+    let embedding: number[] | null = null;
+    try {
+      const embeddingText = getEmbeddingText(name, content, tags);
+      embedding = await generateEmbedding(embeddingText);
+    } catch (error) {
+      console.error("Failed to generate embedding:", error);
+    }
+
     const { data, error } = await supabase
       .from("prompts")
-      .update({ name, tags, content })
+      .update({ name, tags, content, embedding })
       .eq("id", id)
       .eq("user_id", userId)
       .select()

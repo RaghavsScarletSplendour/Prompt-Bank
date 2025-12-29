@@ -6,4 +6,5 @@ export interface Prompt {
   tags: string | null;
   content: string;
   created_at: string;
+  similarity?: number; // Present in semantic search results
 }
