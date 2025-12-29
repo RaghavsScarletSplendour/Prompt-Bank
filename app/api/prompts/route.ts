@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 import { validatePromptInput } from "@/lib/validations";
 import { generateEmbedding, getEmbeddingText } from "@/lib/embeddings";
+import { generateUseCases } from "@/lib/ai";
 
 export async function GET() {
   const { userId } = await auth();
@@ -40,10 +41,18 @@ export async function POST(req: Request) {
 
     const { name, content, tags } = validation.data;
 
+    // Generate use cases for intent-based search (graceful degradation if it fails)
+    let useCases: string | null = null;
+    try {
+      useCases = await generateUseCases(name, content);
+    } catch (error) {
+      console.error("Failed to generate use cases:", error);
+    }
+
     // Generate embedding for semantic search (graceful degradation if it fails)
     let embedding: number[] | null = null;
     try {
-      const embeddingText = getEmbeddingText(name, content, tags);
+      const embeddingText = getEmbeddingText(name, content, tags, useCases);
       embedding = await generateEmbedding(embeddingText);
     } catch (error) {
       console.error("Failed to generate embedding:", error);
@@ -51,7 +60,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabase
       .from("prompts")
-      .insert({ user_id: userId, name, tags, content, embedding })
+      .insert({ user_id: userId, name, tags, content, embedding, use_cases: useCases })
       .select()
       .single();
 
@@ -91,10 +100,18 @@ export async function PUT(req: Request) {
 
     const { name, content, tags } = validation.data;
 
+    // Regenerate use cases for intent-based search (graceful degradation if it fails)
+    let useCases: string | null = null;
+    try {
+      useCases = await generateUseCases(name, content);
+    } catch (error) {
+      console.error("Failed to generate use cases:", error);
+    }
+
     // Regenerate embedding for semantic search (graceful degradation if it fails)
     let embedding: number[] | null = null;
     try {
-      const embeddingText = getEmbeddingText(name, content, tags);
+      const embeddingText = getEmbeddingText(name, content, tags, useCases);
       embedding = await generateEmbedding(embeddingText);
     } catch (error) {
       console.error("Failed to generate embedding:", error);
@@ -102,7 +119,7 @@ export async function PUT(req: Request) {
 
     const { data, error } = await supabase
       .from("prompts")
-      .update({ name, tags, content, embedding })
+      .update({ name, tags, content, embedding, use_cases: useCases })
       .eq("id", id)
       .eq("user_id", userId)
       .select()

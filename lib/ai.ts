@@ -13,6 +13,41 @@ function getOpenAIClient(): OpenAI {
 }
 
 /**
+ * Generate use cases for a prompt using GPT-4o-mini.
+ * These describe scenarios where someone would use this prompt.
+ *
+ * Example:
+ * Input: "Make my text sound more human and natural..."
+ * Output: "humanize AI text, natural writing, avoid AI detection, college essays, blog posts, professional emails"
+ */
+export async function generateUseCases(name: string, content: string): Promise<string> {
+  const client = getOpenAIClient();
+
+  try {
+    const response = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: "You analyze prompts and generate use cases. Given a prompt's name and content, output 5-8 specific use cases describing when/why someone would use this prompt. Output only the use cases, comma-separated, no explanation."
+        },
+        {
+          role: "user",
+          content: `Name: ${name}\n\nContent: ${content}`
+        }
+      ],
+      max_tokens: 150,
+      temperature: 0.3,
+    });
+
+    return response.choices[0]?.message?.content?.trim() || "";
+  } catch (error) {
+    console.error("Use case generation failed:", error);
+    return "";
+  }
+}
+
+/**
  * Expand a search query with related terms using GPT-4o-mini.
  * This helps match user intent to prompts even when exact words don't match.
  *
