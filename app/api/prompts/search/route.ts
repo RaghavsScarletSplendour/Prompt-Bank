@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { supabase } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 import { generateEmbedding } from "@/lib/embeddings";
+import { expandSearchQuery } from "@/lib/ai";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
@@ -16,8 +17,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Query is required" }, { status: 400 });
     }
 
-    // Generate embedding for search query
-    const queryEmbedding = await generateEmbedding(query.trim());
+    // Expand query with related terms for better intent matching
+    const expandedQuery = await expandSearchQuery(query.trim());
+
+    // Generate embedding for expanded search query
+    const queryEmbedding = await generateEmbedding(expandedQuery);
 
     // Call Supabase RPC function for vector similarity search
     const { data, error } = await supabase.rpc("match_prompts", {
