@@ -75,7 +75,7 @@ export default function SearchPage() {
 
     const timer = setTimeout(() => {
       semanticSearch(searchQuery);
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [searchQuery, searchMode, semanticSearch]);
