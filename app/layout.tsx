@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import Sidebar from "@/components/Sidebar";
-import UserMenu from "@/components/UserMenu";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,14 +32,9 @@ export default function RootLayout({
         >
           <div className="flex min-h-screen bg-gray-50">
             <Sidebar />
-            <div className="flex-1 flex flex-col">
-              <header className="bg-white border-b border-gray-200 px-6 py-4 flex justify-end">
-                <UserMenu />
-              </header>
-              <main className="flex-1 p-6">
-                {children}
-              </main>
-            </div>
+            <main className="flex-1 p-6">
+              {children}
+            </main>
           </div>
         </body>
       </html>

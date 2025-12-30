@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import UserMenu from "./UserMenu";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -42,50 +43,55 @@ export default function Sidebar() {
     <aside
       className={`${
         isCollapsed ? "w-16" : "w-fit pr-6"
-      } bg-white border-r border-gray-200 min-h-screen p-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]`}
+      } bg-white border-r border-gray-200 min-h-screen p-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col justify-between`}
     >
-      <div className="flex items-center gap-3 mb-6">
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-1 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
-          aria-label="Toggle sidebar"
-        >
-          <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        <h1
-          className={`text-xl font-bold text-gray-900 whitespace-nowrap overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-            isCollapsed ? "opacity-0 w-0" : "opacity-100"
-          }`}
-        >
-          Prompt Bank
-        </h1>
-      </div>
-      <nav className="space-y-4">
-        {links.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`flex items-center gap-4 py-2 text-base font-medium transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-              isCollapsed ? "p-1.5 w-fit" : "px-3"
-            } ${
-              pathname === link.href
-                ? "text-blue-500"
-                : "text-gray-400 hover:text-gray-600"
+      <div>
+        <div className="flex items-center gap-3 mb-6">
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="p-1 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
+            aria-label="Toggle sidebar"
+          >
+            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <h1
+            className={`text-xl font-bold text-gray-900 whitespace-nowrap overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+              isCollapsed ? "opacity-0 w-0" : "opacity-100"
             }`}
           >
-            <span className="flex-shrink-0">{link.icon}</span>
-            <span
-              className={`whitespace-nowrap overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-                isCollapsed ? "opacity-0 w-0" : "opacity-100"
+            Prompt Bank
+          </h1>
+        </div>
+        <nav className="space-y-4">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`flex items-center gap-4 py-2 text-base font-medium transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                isCollapsed ? "p-1.5 w-fit" : "px-3"
+              } ${
+                pathname === link.href
+                  ? "text-blue-500"
+                  : "text-gray-400 hover:text-gray-600"
               }`}
             >
-              {link.label}
-            </span>
-          </Link>
-        ))}
-      </nav>
+              <span className="flex-shrink-0">{link.icon}</span>
+              <span
+                className={`whitespace-nowrap overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                  isCollapsed ? "opacity-0 w-0" : "opacity-100"
+                }`}
+              >
+                {link.label}
+              </span>
+            </Link>
+          ))}
+        </nav>
+      </div>
+      <div className="px-3">
+        <UserMenu />
+      </div>
     </aside>
   );
 }
