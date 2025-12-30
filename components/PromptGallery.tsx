@@ -57,7 +57,7 @@ export default function PromptGallery({ prompts, onRefresh, showSimilarity, cate
 
   if (prompts.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-500">
+      <div className="text-center py-12 text-gray-400">
         No prompts yet. Add your first prompt!
       </div>
     );

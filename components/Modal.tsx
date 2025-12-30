@@ -16,7 +16,7 @@ export default function Modal({ isOpen, onClose, maxWidth = "max-w-md", children
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-lg p-6 w-full ${maxWidth} mx-4`}
+        className={`bg-gray-900 rounded-lg p-6 w-full ${maxWidth} mx-4`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

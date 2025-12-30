@@ -43,21 +43,21 @@ export default function Sidebar() {
     <aside
       className={`${
         isCollapsed ? "w-16" : "w-fit pr-6"
-      } bg-white min-h-screen p-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col justify-between`}
+      } bg-black min-h-screen p-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col justify-between`}
     >
       <div>
         <div className="flex items-center gap-3 mb-6">
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
+            className="p-1 hover:bg-gray-800 rounded-md transition-colors cursor-pointer"
             aria-label="Toggle sidebar"
           >
-            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
           <h1
-            className={`text-xl font-bold text-gray-900 whitespace-nowrap overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+            className={`text-xl font-bold text-gray-100 whitespace-nowrap overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
               isCollapsed ? "opacity-0 w-0" : "opacity-100"
             }`}
           >
@@ -74,7 +74,7 @@ export default function Sidebar() {
               } ${
                 pathname === link.href
                   ? "text-blue-500"
-                  : "text-gray-400 hover:text-gray-600"
+                  : "text-gray-500 hover:text-gray-300"
               }`}
             >
               <span className="flex-shrink-0">{link.icon}</span>

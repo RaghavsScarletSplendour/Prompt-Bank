@@ -102,7 +102,7 @@ export default function SearchPage() {
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-gray-800 mb-6">
+      <h2 className="text-lg font-semibold text-gray-100 mb-6">
         Search Prompts
       </h2>
 
@@ -116,7 +116,7 @@ export default function SearchPage() {
           className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
             searchMode === "text"
               ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
           }`}
         >
           Text Search
@@ -129,7 +129,7 @@ export default function SearchPage() {
           className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
             searchMode === "semantic"
               ? "bg-blue-600 text-white"
-              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
           }`}
         >
           Semantic Search
@@ -145,7 +145,7 @@ export default function SearchPage() {
         }
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-full max-w-md px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-6"
+        className="w-full max-w-md px-4 py-2 bg-gray-800 border border-gray-700 rounded-md text-sm text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-6"
       />
 
       {/* Error Message */}
@@ -172,17 +172,17 @@ export default function SearchPage() {
       )}
 
       {loading ? (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-12 text-gray-400">
           {searchMode === "semantic" ? "Searching..." : "Loading..."}
         </div>
       ) : searchQuery === "" ? (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-12 text-gray-400">
           {searchMode === "semantic"
             ? "Describe your task in natural language to find the best matching prompts..."
             : "Type to search for prompts by name..."}
         </div>
       ) : displayPrompts.length === 0 ? (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-12 text-gray-400">
           No prompts found matching "{searchQuery}"
         </div>
       ) : (

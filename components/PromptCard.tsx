@@ -51,7 +51,7 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
   return (
     <>
       <div
-        className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow relative cursor-pointer"
+        className="bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow relative cursor-pointer"
         onClick={() => {
           setStartInEditMode(false);
           setDetailOpen(true);
@@ -60,7 +60,7 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
         <div className="flex justify-between items-start mb-2">
           <div className="flex-1 min-w-0 mr-2">
             <div className="flex items-start gap-2">
-              <h3 className="font-semibold text-lg text-gray-900">{prompt.name}</h3>
+              <h3 className="font-semibold text-lg text-gray-100">{prompt.name}</h3>
               {showSimilarity && prompt.similarity !== undefined && (
                 <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded flex-shrink-0">
                   {Math.min(99, Math.round(prompt.similarity * 125))}% match
@@ -71,7 +71,7 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
           <div className="flex items-center flex-shrink-0" onClick={(e) => e.stopPropagation()}>
             <button
               onClick={handleCopy}
-              className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-gray-700"
+              className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
               title="Copy to clipboard"
             >
               {copied ? (
@@ -87,21 +87,21 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
             <div className="relative" ref={menuRef}>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-gray-700"
+              className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
               </svg>
             </button>
             {menuOpen && (
-              <div className="absolute right-0 mt-1 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+              <div className="absolute right-0 mt-1 w-32 bg-gray-800 border border-gray-700 rounded-md shadow-lg z-10">
                 <button
                   onClick={() => {
                     setMenuOpen(false);
                     setStartInEditMode(true);
                     setDetailOpen(true);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
                 >
                   Edit
                 </button>
@@ -110,7 +110,7 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
                     setMenuOpen(false);
                     onDelete(prompt.id);
                   }}
-                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                  className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700"
                 >
                   Delete
                 </button>
@@ -124,7 +124,7 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
             <CategoryBadge categoryId={prompt.category_id} name={categoryName} />
           </div>
         )}
-        <p className="text-gray-600 text-sm whitespace-pre-wrap line-clamp-4">
+        <p className="text-gray-400 text-sm whitespace-pre-wrap line-clamp-4">
           {prompt.content}
         </p>
       </div>

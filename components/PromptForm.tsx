@@ -63,7 +63,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess, categories }: P
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="text-xl font-semibold mb-4">Add New Prompt</h2>
+      <h2 className="text-xl font-semibold text-gray-100 mb-4">Add New Prompt</h2>
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           {error}
@@ -71,7 +71,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess, categories }: P
       )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-300 mb-1">
             Name
           </label>
           <input
@@ -79,19 +79,19 @@ export default function PromptForm({ isOpen, onClose, onSuccess, categories }: P
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="My awesome prompt"
             maxLength={PROMPT_LIMITS.name.maxLength}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-300 mb-1">
             Category
           </label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">No Category</option>
             {categories.map((category) => (
@@ -102,7 +102,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess, categories }: P
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-300 mb-1">
             Prompt
           </label>
           <textarea
@@ -110,7 +110,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess, categories }: P
             onChange={(e) => setContent(e.target.value)}
             required
             rows={5}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your prompt here..."
             maxLength={PROMPT_LIMITS.content.maxLength}
           />
@@ -119,7 +119,7 @@ export default function PromptForm({ isOpen, onClose, onSuccess, categories }: P
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800"
+            className="px-4 py-2 text-gray-400 hover:text-gray-200"
           >
             Cancel
           </button>

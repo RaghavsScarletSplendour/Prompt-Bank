@@ -133,18 +133,18 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="text-xl font-semibold text-gray-900 border border-gray-300 rounded px-2 py-1 flex-1 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="text-xl font-semibold text-gray-100 bg-gray-800 border border-gray-700 rounded px-2 py-1 flex-1 mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               maxLength={PROMPT_LIMITS.name.maxLength}
             />
           ) : (
-            <h2 className="text-xl font-semibold text-gray-900">{prompt.name}</h2>
+            <h2 className="text-xl font-semibold text-gray-100">{prompt.name}</h2>
           )}
           <div className="flex items-center gap-1">
             {!isEditing && (
               <>
                 <button
                   onClick={handleCopy}
-                  className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-gray-700"
+                  className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
                   title="Copy to clipboard"
                 >
                   {copied ? (
@@ -160,20 +160,20 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
                 <div className="relative" ref={menuRef}>
                   <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-gray-700"
+                    className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                     </svg>
                   </button>
                 {menuOpen && (
-                  <div className="absolute right-0 mt-1 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                  <div className="absolute right-0 mt-1 w-32 bg-gray-800 border border-gray-700 rounded-md shadow-lg z-10">
                     <button
                       onClick={() => {
                         setMenuOpen(false);
                         setIsEditing(true);
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
                     >
                       Edit
                     </button>
@@ -183,7 +183,7 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
                         onClose();
                         onDelete?.();
                       }}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                      className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700"
                     >
                       Delete
                     </button>
@@ -194,7 +194,7 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
             )}
             <button
               onClick={onClose}
-              className="p-1 hover:bg-gray-100 rounded text-gray-500 hover:text-gray-700"
+              className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -206,13 +206,13 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
         {isEditing ? (
           <>
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Category
               </label>
               <select
                 value={categoryId}
                 onChange={(e) => setCategoryId(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">No Category</option>
                 {categories.map((category) => (
@@ -237,23 +237,23 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={8}
-              className="w-full border border-gray-300 rounded px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
               maxLength={PROMPT_LIMITS.content.maxLength}
             />
           ) : (
-            <p className="text-gray-700 whitespace-pre-wrap">{prompt.content}</p>
+            <p className="text-gray-300 whitespace-pre-wrap">{prompt.content}</p>
           )}
         </div>
 
-        <div className="flex justify-between items-center border-t pt-3">
-          <div className="text-sm text-gray-500">
+        <div className="flex justify-between items-center border-t border-gray-700 pt-3">
+          <div className="text-sm text-gray-400">
             Created: {createdDate}
           </div>
           {isEditing && (
             <div className="flex gap-2">
               <button
                 onClick={handleCancel}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="px-4 py-2 text-gray-400 hover:text-gray-200"
                 disabled={loading}
               >
                 Cancel

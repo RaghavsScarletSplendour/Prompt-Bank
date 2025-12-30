@@ -56,7 +56,7 @@ export default function GalleryPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-semibold text-gray-800">Your Prompts</h2>
+        <h2 className="text-lg font-semibold text-gray-100">Your Prompts</h2>
         <div className="flex items-center gap-3">
           <CategoryManager
             categories={categories}
@@ -74,7 +74,7 @@ export default function GalleryPage() {
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Loading...</div>
+        <div className="text-center py-12 text-gray-400">Loading...</div>
       ) : (
         <PromptGallery prompts={filteredPrompts} onRefresh={fetchPrompts} categories={categories} />
       )}
