@@ -47,7 +47,7 @@ export default function Sidebar() {
       <div className="flex items-center gap-3 mb-6">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-1 hover:bg-gray-100 rounded-md transition-colors"
+          className="p-1 hover:bg-gray-100 rounded-md transition-colors cursor-pointer"
           aria-label="Toggle sidebar"
         >
           <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
