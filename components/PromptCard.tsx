@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import PromptDetailModal from "./PromptDetailModal";
 import { Category } from "@/lib/types";
+import { CategoryBadge } from "./ui/CategoryBadge";
 
 interface Prompt {
   id: string;
@@ -118,13 +119,9 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
             </div>
           </div>
         </div>
-        {categoryName && (
+        {categoryName && prompt.category_id && (
           <div className="flex flex-wrap gap-1 mb-3">
-            {categoryName && (
-              <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">
-                {categoryName}
-              </span>
-            )}
+            <CategoryBadge categoryId={prompt.category_id} name={categoryName} />
           </div>
         )}
         <p className="text-gray-600 text-sm whitespace-pre-wrap line-clamp-4">

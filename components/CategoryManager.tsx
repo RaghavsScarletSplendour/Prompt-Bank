@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Modal from "./Modal";
 import { Category } from "@/lib/types";
+import { CategoryColorDot } from "./ui/CategoryColorDot";
 
 interface CategoryManagerProps {
   categories: Category[];
@@ -85,10 +86,11 @@ export default function CategoryManager({
                   onSelectCategory(category.id);
                   setIsDropdownOpen(false);
                 }}
-                className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 flex items-center gap-2 ${
                   selectedCategoryId === category.id ? "bg-blue-50 text-blue-600" : "text-gray-700"
                 }`}
               >
+                <CategoryColorDot categoryId={category.id} />
                 {category.name}
               </button>
             ))}
@@ -287,6 +289,7 @@ function ManageCategoriesModal({
                 </>
               ) : (
                 <>
+                  <CategoryColorDot categoryId={category.id} />
                   <span className="flex-1 text-sm text-gray-700">{category.name}</span>
                   <button
                     onClick={() => startEditing(category)}

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { PROMPT_LIMITS, validatePromptInput } from "@/lib/validations";
 import Modal from "./Modal";
 import { Category } from "@/lib/types";
+import { CategoryBadge } from "./ui/CategoryBadge";
 
 interface Prompt {
   id: string;
@@ -224,10 +225,8 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
           </>
         ) : (
           <div className="flex flex-wrap gap-1 mb-4">
-            {categoryName && (
-              <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">
-                {categoryName}
-              </span>
+            {categoryName && prompt.category_id && (
+              <CategoryBadge categoryId={prompt.category_id} name={categoryName} />
             )}
           </div>
         )}
