@@ -44,7 +44,7 @@ export default function CategoryManager({
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-700 rounded-md hover:bg-gray-800"
+        className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-800 border border-white/5 rounded-xl hover:bg-gray-700 transition-colors"
       >
         <span className="text-gray-400">Category:</span>
         <span className="font-medium text-gray-100">{getSelectedLabel()}</span>

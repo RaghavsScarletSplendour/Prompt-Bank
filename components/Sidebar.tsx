@@ -69,7 +69,7 @@ export default function Sidebar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex items-center gap-4 py-2 text-base font-medium transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+              className={`flex items-center gap-5 py-2 text-base font-medium transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
                 isCollapsed ? "p-1.5 w-fit" : "px-3"
               } ${
                 pathname === link.href
