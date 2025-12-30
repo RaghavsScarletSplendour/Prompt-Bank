@@ -5,6 +5,7 @@ import PromptGallery from "@/components/PromptGallery";
 import PromptForm from "@/components/PromptForm";
 import CategoryManager from "@/components/CategoryManager";
 import { Category } from "@/lib/types";
+import Button from "@/components/ui/Button";
 
 interface Prompt {
   id: string;
@@ -64,15 +65,15 @@ export default function GalleryPage() {
             onSelectCategory={setSelectedCategoryId}
             onCategoriesChange={fetchCategories}
           />
-          <button
+          <Button
             onClick={() => setIsFormOpen(true)}
-            className="flex items-center gap-2 bg-gray-800 text-gray-300 px-4 py-2 rounded-xl hover:bg-gray-700 hover:text-white transition-colors"
+            className="flex items-center gap-2 rounded-xl"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
             Add Prompt
-          </button>
+          </Button>
         </div>
       </div>
 

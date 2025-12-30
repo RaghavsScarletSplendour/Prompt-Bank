@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Modal from "./Modal";
 import { Category } from "@/lib/types";
 import { CategoryColorDot } from "./ui/CategoryColorDot";
+import Button from "./ui/Button";
 
 interface CategoryManagerProps {
   categories: Category[];
@@ -244,13 +245,14 @@ function ManageCategoriesModal({
           maxLength={50}
           className="flex-1 bg-gray-800 border border-gray-700 rounded-md px-3 py-2 text-sm text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button
+        <Button
           type="submit"
+          variant="primary"
+          size="sm"
           disabled={loading || !newCategoryName.trim()}
-          className="px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 disabled:opacity-50"
         >
           Add
-        </button>
+        </Button>
       </form>
 
       {/* Category list */}
@@ -312,12 +314,9 @@ function ManageCategoriesModal({
       </div>
 
       <div className="mt-4 flex justify-end">
-        <button
-          onClick={onClose}
-          className="px-4 py-2 text-gray-400 hover:text-gray-200"
-        >
+        <Button variant="ghost" onClick={onClose}>
           Close
-        </button>
+        </Button>
       </div>
     </Modal>
   );

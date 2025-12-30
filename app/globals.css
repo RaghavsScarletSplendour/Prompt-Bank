@@ -3,6 +3,45 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* ============ DESIGN TOKENS ============ */
+
+  /* Colors - Semantic */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-success: #16a34a;
+
+  /* Surface Colors */
+  --color-surface-primary: #1f2937;
+  --color-surface-secondary: #111827;
+  --color-surface-hover: #374151;
+
+  /* Border Colors */
+  --color-border: #374151;
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+
+  /* Text Colors */
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+  --color-text-muted: #6b7280;
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.04);
+  --shadow-dropdown: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
 }
 
 @theme inline {

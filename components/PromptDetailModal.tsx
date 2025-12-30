@@ -5,6 +5,7 @@ import { PROMPT_LIMITS, validatePromptInput } from "@/lib/validations";
 import Modal from "./Modal";
 import { Category } from "@/lib/types";
 import { CategoryBadge } from "./ui/CategoryBadge";
+import Button from "./ui/Button";
 
 interface Prompt {
   id: string;
@@ -142,11 +143,7 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
           <div className="flex items-center gap-1">
             {!isEditing && (
               <>
-                <button
-                  onClick={handleCopy}
-                  className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
-                  title="Copy to clipboard"
-                >
+                <Button variant="icon" onClick={handleCopy} title="Copy to clipboard">
                   {copied ? (
                     <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -156,16 +153,13 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
                   )}
-                </button>
+                </Button>
                 <div className="relative" ref={menuRef}>
-                  <button
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
-                  >
+                  <Button variant="icon" onClick={() => setMenuOpen(!menuOpen)}>
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                     </svg>
-                  </button>
+                  </Button>
                 {menuOpen && (
                   <div className="absolute right-0 mt-1 w-32 bg-gray-800 border border-gray-700 rounded-md shadow-lg z-10">
                     <button
@@ -192,14 +186,11 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
                 </div>
               </>
             )}
-            <button
-              onClick={onClose}
-              className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
-            >
+            <Button variant="icon" onClick={onClose}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -251,20 +242,12 @@ export default function PromptDetailModal({ isOpen, onClose, prompt, onSave, onD
           </div>
           {isEditing && (
             <div className="flex gap-2">
-              <button
-                onClick={handleCancel}
-                className="px-4 py-2 text-gray-400 hover:text-gray-200"
-                disabled={loading}
-              >
+              <Button variant="ghost" onClick={handleCancel} disabled={loading}>
                 Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                disabled={loading}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-              >
-                {loading ? "Saving..." : "Save"}
-              </button>
+              </Button>
+              <Button variant="primary" onClick={handleSave} loading={loading}>
+                Save
+              </Button>
             </div>
           )}
         </div>

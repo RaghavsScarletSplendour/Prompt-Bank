@@ -307,3 +307,66 @@ ALTER TABLE prompts ADD COLUMN category_id UUID REFERENCES categories(id) ON DEL
 - Categories shown as purple badges to distinguish from blue tag badges
 - Filter is client-side for simplicity
 - Category names max 50 characters
+
+---
+
+## DRY Design System Implementation (Dec 30, 2025)
+
+### Summary
+Centralized UI styles with design tokens and reusable base components (Button, Card) to ensure 100% consistency across the application.
+
+### Completed Tasks
+- [x] Add design tokens to globals.css (colors, shadows, radii, transitions)
+- [x] Create universal Button component (`components/ui/Button.tsx`)
+- [x] Create universal Card component (`components/ui/Card.tsx`)
+- [x] Refactor PromptCard.tsx to use Card and Button components
+- [x] Refactor PromptForm.tsx to use Button component
+- [x] Refactor PromptDetailModal.tsx to use Button component
+- [x] Refactor ConfirmDialog.tsx to use Modal and Button components
+- [x] Refactor CategoryManager.tsx to use Button component
+- [x] Refactor gallery/page.tsx to use Button component
+- [x] Refactor search/page.tsx to use Button component
+- [x] Refactor CopyButton.tsx to use Button component
+
+### Files Created (2)
+1. `components/ui/Button.tsx` - Universal button with 5 variants (primary, secondary, ghost, danger, icon) and 3 sizes (sm, md, lg)
+2. `components/ui/Card.tsx` - Universal card with padding options and interactive state
+
+### Files Modified (10)
+1. `app/globals.css` - Added design tokens (semantic colors, surfaces, borders, shadows, radii, transitions)
+2. `components/PromptCard.tsx` - Now uses Card and Button components
+3. `components/PromptForm.tsx` - Now uses Button component
+4. `components/PromptDetailModal.tsx` - Now uses Button component for all buttons
+5. `components/ConfirmDialog.tsx` - Simplified to use Modal + Button, removing duplicated overlay markup
+6. `components/CategoryManager.tsx` - Now uses Button component
+7. `components/ui/CopyButton.tsx` - Now uses Button component internally
+8. `app/gallery/page.tsx` - Add Prompt button now uses Button component
+9. `app/search/page.tsx` - Toggle and close buttons now use Button component
+
+### Key Improvements
+- **Single Source of Truth**: All button styles now come from one component
+- **Eliminated Duplication**: ConfirmDialog no longer duplicates Modal markup
+- **Consistent Shadows**: Card shadows now use CSS variable `--shadow-card`
+- **Design Tokens**: Centralized color, spacing, and transition values in globals.css
+
+### DRY Audit Checklist
+
+Before adding new UI components, verify:
+
+1. **Check for existing components** in `/components/ui/`
+   - Use `Button` for all clickable actions
+   - Use `Card` for card-like containers
+
+2. **Use design tokens** from `globals.css`
+   - `--shadow-card` for card shadows
+   - `--color-*` for semantic colors
+   - `--radius-*` for border radius
+
+3. **Follow button variants**:
+   | Variant | Use Case |
+   |---------|----------|
+   | `primary` | Main actions (Save, Submit) |
+   | `secondary` | Secondary actions (Add, Create) |
+   | `ghost` | Cancel, Close, low emphasis |
+   | `danger` | Destructive actions (Delete) |
+   | `icon` | Icon-only buttons |

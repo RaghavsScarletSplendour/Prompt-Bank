@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import PromptGallery from "@/components/PromptGallery";
 import { Category } from "@/lib/types";
+import Button from "@/components/ui/Button";
 
 interface Prompt {
   id: string;
@@ -108,32 +109,26 @@ export default function SearchPage() {
 
       {/* Search Mode Toggle */}
       <div className="flex gap-2 mb-4">
-        <button
+        <Button
+          size="sm"
           onClick={() => {
             setSearchMode("text");
             setError(null);
           }}
-          className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-            searchMode === "text"
-              ? "bg-gray-700 text-white"
-              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-          }`}
+          className={searchMode === "text" ? "bg-gray-700 text-white" : ""}
         >
           Text Search
-        </button>
-        <button
+        </Button>
+        <Button
+          size="sm"
           onClick={() => {
             setSearchMode("semantic");
             setError(null);
           }}
-          className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-            searchMode === "semantic"
-              ? "bg-gray-700 text-white"
-              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
-          }`}
+          className={searchMode === "semantic" ? "bg-gray-700 text-white" : ""}
         >
           Semantic Search
-        </button>
+        </Button>
       </div>
 
       <input
@@ -159,14 +154,15 @@ export default function SearchPage() {
               <p className="text-sm text-red-800 font-medium">Semantic search error</p>
               <p className="text-sm text-red-600 mt-1">{error}</p>
             </div>
-            <button
+            <Button
+              variant="icon"
               onClick={() => setError(null)}
-              className="ml-auto text-red-500 hover:text-red-700"
+              className="ml-auto text-red-500 hover:text-red-700 hover:bg-red-50"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+            </Button>
           </div>
         </div>
       )}

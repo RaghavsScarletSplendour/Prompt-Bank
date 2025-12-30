@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PROMPT_LIMITS, validatePromptInput } from "@/lib/validations";
 import Modal from "./Modal";
 import { Category } from "@/lib/types";
+import Button from "./ui/Button";
 
 interface PromptFormProps {
   isOpen: boolean;
@@ -116,20 +117,12 @@ export default function PromptForm({ isOpen, onClose, onSuccess, categories }: P
           />
         </div>
         <div className="flex gap-3 justify-end">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 text-gray-400 hover:text-gray-200"
-          >
+          <Button type="button" variant="ghost" onClick={onClose}>
             Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="px-4 py-2 bg-gray-700 text-gray-100 rounded-md hover:bg-gray-600 hover:text-white disabled:opacity-50"
-          >
-            {loading ? "Saving..." : "Save Prompt"}
-          </button>
+          </Button>
+          <Button type="submit" variant="secondary" loading={loading}>
+            Save Prompt
+          </Button>
         </div>
       </form>
     </Modal>

@@ -17,6 +17,7 @@
 8. Code Organization Principles
 
 - Follow the DRY (Don't Repeat Yourself) principle - extract shared logic into reusable functions, utilities, or base classes
+- When adding new UI components, use the DRY checklist in tasks/todo.md to ensure consistency.
 - Keep code modular with single-responsibility components
 - Use config files for environment-specific or frequently changed values
 - Create base files/classes for shared functionality that can be extended

@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import PromptDetailModal from "./PromptDetailModal";
 import { Category } from "@/lib/types";
 import { CategoryBadge } from "./ui/CategoryBadge";
+import { Card } from "./ui/Card";
+import Button from "./ui/Button";
 
 interface Prompt {
   id: string;
@@ -50,9 +52,9 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
 
   return (
     <>
-      <div
-        className="bg-gray-800 border border-white/5 rounded-2xl p-6 relative cursor-pointer"
-        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.04)' }}
+      <Card
+        interactive
+        className="relative"
         onClick={() => {
           setStartInEditMode(false);
           setDetailOpen(true);
@@ -70,9 +72,9 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
             </div>
           </div>
           <div className="flex items-center flex-shrink-0" onClick={(e) => e.stopPropagation()}>
-            <button
+            <Button
+              variant="icon"
               onClick={handleCopy}
-              className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
               title="Copy to clipboard"
             >
               {copied ? (
@@ -84,16 +86,16 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
               )}
-            </button>
+            </Button>
             <div className="relative" ref={menuRef}>
-            <button
+            <Button
+              variant="icon"
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-1 hover:bg-gray-800 rounded text-gray-400 hover:text-gray-200"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
               </svg>
-            </button>
+            </Button>
             {menuOpen && (
               <div className="absolute right-0 mt-1 w-32 bg-gray-800 border border-gray-700 rounded-md shadow-lg z-10">
                 <button
@@ -128,7 +130,7 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
         <p className="text-gray-400 text-sm whitespace-pre-wrap line-clamp-4">
           {prompt.content}
         </p>
-      </div>
+      </Card>
       <PromptDetailModal
         isOpen={detailOpen}
         onClose={() => setDetailOpen(false)}
