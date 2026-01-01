@@ -477,3 +477,38 @@ ALTER TABLE prompts DISABLE ROW LEVEL SECURITY;
 ALTER TABLE categories DISABLE ROW LEVEL SECURITY;
 ```
 Then revert code to use `getSupabaseServiceClient()` with manual filters.
+
+---
+
+## Particles.js Background Implementation (Jan 1, 2026)
+
+### Summary
+Replaced the flat black background with an interactive particles.js system across all pages.
+
+### Completed Tasks
+- [x] Install @tsparticles/react and @tsparticles/slim dependencies
+- [x] Create config/particles-config.json with user's configuration
+- [x] Create components/ParticlesBackground.tsx component
+- [x] Update app/layout.tsx to include ParticlesBackground
+- [x] Test the implementation (build successful)
+
+### Files Created (2)
+1. `config/particles-config.json` - Particles configuration (user-provided settings)
+2. `components/ParticlesBackground.tsx` - Client component with fixed full-screen positioning
+
+### Files Modified (1)
+1. `app/layout.tsx` - Added ParticlesBackground import and component, removed bg-black
+
+### Features
+- **227 white particles** with random sizes (1-8px)
+- **Linked lines** between nearby particles (distance: 224px, opacity: 0.47)
+- **Hover interaction**: Grab mode - lines connect to cursor
+- **Click interaction**: Push mode - adds 4 new particles
+- **Movement**: Speed 6, random directions, particles exit and re-enter screen
+- **Retina detection**: Enabled for high-DPI displays
+
+### Technical Notes
+- Uses `@tsparticles/react` and `@tsparticles/slim` (modern successor to particles.js)
+- Component uses "use client" directive (requires browser APIs)
+- Full-screen mode with z-index: -1 (renders behind all content)
+- Configuration converted from particles.js format to tsparticles format
