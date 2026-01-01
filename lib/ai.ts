@@ -29,14 +29,22 @@ export async function generateUseCases(name: string, content: string): Promise<s
       messages: [
         {
           role: "system",
-          content: "You analyze prompts and generate use cases. Given a prompt's name and content, output 5-8 specific use cases describing when/why someone would use this prompt. Output only the use cases, comma-separated, no explanation."
+          content: `You generate search-optimized use cases for a prompt library. Given a prompt's name and content, generate 8-10 diverse task descriptions that someone might search when they need this prompt.
+
+Include variety across:
+- Specific tasks (e.g., "writing a cover letter for a tech job")
+- General tasks (e.g., "improving my writing")
+- Different contexts (work, school, personal)
+- Different phrasings of the same need
+
+Output only the use cases, comma-separated, no explanation.`
         },
         {
           role: "user",
           content: `Name: ${name}\n\nContent: ${content}`
         }
       ],
-      max_tokens: 150,
+      max_tokens: 200,
       temperature: 0.3,
     });
 

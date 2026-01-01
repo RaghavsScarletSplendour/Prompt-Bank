@@ -19,11 +19,10 @@ export async function POST() {
   try {
     const supabaseToken = await requireSupabaseToken();
     const supabase = getSupabaseClient(supabaseToken);
-    // Fetch all prompts without use_cases (RLS filters by user)
+    // Fetch all prompts to regenerate use_cases (RLS filters by user)
     const { data: prompts, error: fetchError } = await supabase
       .from("prompts")
-      .select("id, name, content")
-      .is("use_cases", null);
+      .select("id, name, content");
 
     if (fetchError) {
       console.error("Fetch error:", fetchError);
