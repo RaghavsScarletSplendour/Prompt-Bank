@@ -5,7 +5,11 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { ISourceOptions } from "@tsparticles/engine";
 
-export default function ParticlesBackground() {
+interface ParticlesBackgroundProps {
+  particleCount?: number;
+}
+
+export default function ParticlesBackground({ particleCount = 60 }: ParticlesBackgroundProps) {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
@@ -24,13 +28,13 @@ export default function ParticlesBackground() {
       },
       background: {
         color: {
-          value: "#00000",
+          value: "#00001",
         },
       },
       fpsLimit: 120,
       particles: {
         number: {
-          value: 60,
+          value: particleCount,
           density: {
             enable: true,
             area: 1578.2983970406906,
@@ -100,7 +104,7 @@ export default function ParticlesBackground() {
       },
       detectRetina: true,
     }),
-    []
+    [particleCount]
   );
 
   if (!init) {

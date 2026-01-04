@@ -9,6 +9,11 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  // Hide sidebar on auth routes
+  if (pathname.startsWith('/sign-in')) {
+    return null;
+  }
+
   const links = [
     {
       href: "/",
