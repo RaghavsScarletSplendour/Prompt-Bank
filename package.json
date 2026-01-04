@@ -14,6 +14,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "dotenv": "^17.2.3",
+    "framer-motion": "^12.23.26",
     "next": "16.1.1",
     "openai": "^6.15.0",
     "react": "19.2.3",

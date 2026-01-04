@@ -7,6 +7,7 @@ import { CategoryBadge } from "./ui/CategoryBadge";
 import { Card } from "./ui/Card";
 import CopyButton from "./ui/CopyButton";
 import Dropdown from "./ui/Dropdown";
+import { SimilarityBadge } from "./search/SimilarityBadge";
 
 interface Prompt {
   id: string;
@@ -60,9 +61,7 @@ export default function PromptCard({ prompt, onDelete, onEdit, showSimilarity, c
             <div className="flex items-start gap-2">
               <h3 className="font-semibold text-lg text-gray-100">{prompt.name}</h3>
               {showSimilarity && prompt.similarity !== undefined && (
-                <span className="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded flex-shrink-0">
-                  {Math.min(99, Math.round(prompt.similarity * 125))}% match
-                </span>
+                <SimilarityBadge similarity={prompt.similarity} />
               )}
             </div>
           </div>
