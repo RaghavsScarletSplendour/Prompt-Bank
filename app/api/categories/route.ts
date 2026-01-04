@@ -20,21 +20,6 @@ function isClerkTokenTemplateNotFound(err: unknown): boolean {
 
 export async function GET() {
   const { userId } = await auth();
-  // #region agent log
-  fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sessionId: "debug-session",
-      runId: "pre-fix",
-      hypothesisId: "H4",
-      location: "app/api/categories/route.ts:GET",
-      message: "Route entry",
-      data: { hasUserId: Boolean(userId) },
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {});
-  // #endregion agent log
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -44,42 +29,8 @@ export async function GET() {
     try {
       const supabaseToken = await requireSupabaseToken();
       supabase = getSupabaseClient(supabaseToken);
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "post-fix",
-          hypothesisId: "H1",
-          location: "app/api/categories/route.ts:GET",
-          message: "Using Supabase user client (Clerk JWT template succeeded)",
-          data: {},
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
     } catch (err) {
       if (!isClerkTokenTemplateNotFound(err)) throw err;
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "post-fix",
-          hypothesisId: "H1",
-          location: "app/api/categories/route.ts:GET",
-          message: "Falling back to Supabase service-role (Clerk JWT template not found)",
-          data: {
-            clerkStatus: (err as any)?.status,
-            clerkCode: (err as any)?.code,
-            clerkTraceId: (err as any)?.clerkTraceId,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
       return NextResponse.json(
         {
           error: "Supabase auth token template is misconfigured",
@@ -97,21 +48,6 @@ export async function GET() {
       .order("name", { ascending: true });
 
     if (error) {
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "pre-fix2",
-          hypothesisId: "H6",
-          location: "app/api/categories/route.ts:GET",
-          message: "Supabase query error",
-          data: { supabaseCode: (error as any)?.code, supabaseMessage: (error as any)?.message },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
       console.error("Database error:", error);
       return NextResponse.json({ error: "Failed to fetch categories" }, { status: 500 });
     }
@@ -140,42 +76,8 @@ export async function POST(req: Request) {
     try {
       const supabaseToken = await requireSupabaseToken();
       supabase = getSupabaseClient(supabaseToken);
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "post-fix",
-          hypothesisId: "H1",
-          location: "app/api/categories/route.ts:POST",
-          message: "Using Supabase user client (Clerk JWT template succeeded)",
-          data: {},
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
     } catch (err) {
       if (!isClerkTokenTemplateNotFound(err)) throw err;
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "post-fix",
-          hypothesisId: "H1",
-          location: "app/api/categories/route.ts:POST",
-          message: "Falling back to Supabase service-role (Clerk JWT template not found)",
-          data: {
-            clerkStatus: (err as any)?.status,
-            clerkCode: (err as any)?.code,
-            clerkTraceId: (err as any)?.clerkTraceId,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
       return NextResponse.json(
         {
           error: "Supabase auth token template is misconfigured",
@@ -233,42 +135,8 @@ export async function PUT(req: Request) {
     try {
       const supabaseToken = await requireSupabaseToken();
       supabase = getSupabaseClient(supabaseToken);
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "post-fix",
-          hypothesisId: "H1",
-          location: "app/api/categories/route.ts:PUT",
-          message: "Using Supabase user client (Clerk JWT template succeeded)",
-          data: {},
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
     } catch (err) {
       if (!isClerkTokenTemplateNotFound(err)) throw err;
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "post-fix",
-          hypothesisId: "H1",
-          location: "app/api/categories/route.ts:PUT",
-          message: "Falling back to Supabase service-role (Clerk JWT template not found)",
-          data: {
-            clerkStatus: (err as any)?.status,
-            clerkCode: (err as any)?.code,
-            clerkTraceId: (err as any)?.clerkTraceId,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
       return NextResponse.json(
         {
           error: "Supabase auth token template is misconfigured",
@@ -333,42 +201,8 @@ export async function DELETE(req: Request) {
     try {
       const supabaseToken = await requireSupabaseToken();
       supabase = getSupabaseClient(supabaseToken);
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "post-fix",
-          hypothesisId: "H1",
-          location: "app/api/categories/route.ts:DELETE",
-          message: "Using Supabase user client (Clerk JWT template succeeded)",
-          data: {},
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
     } catch (err) {
       if (!isClerkTokenTemplateNotFound(err)) throw err;
-      // #region agent log
-      fetch("http://127.0.0.1:7245/ingest/cb137be1-9c26-40ae-bf8b-1b9be3cdfd10", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "post-fix",
-          hypothesisId: "H1",
-          location: "app/api/categories/route.ts:DELETE",
-          message: "Falling back to Supabase service-role (Clerk JWT template not found)",
-          data: {
-            clerkStatus: (err as any)?.status,
-            clerkCode: (err as any)?.code,
-            clerkTraceId: (err as any)?.clerkTraceId,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion agent log
       return NextResponse.json(
         {
           error: "Supabase auth token template is misconfigured",

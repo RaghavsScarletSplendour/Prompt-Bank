@@ -4,22 +4,20 @@ import { requireSupabaseToken } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { generateEmbedding } from "@/lib/embeddings";
 import { expandSearchQuery } from "@/lib/ai";
-import { ConfigError, requireEnv, toErrorMessage } from "@/lib/errors";
+import { ConfigError, requireEnv } from "@/lib/errors";
 
 function jsonError(args: {
   status: number;
   code: string;
   message: string;
   hint?: string;
-  debug?: Record<string, unknown>;
 }) {
-  const { status, code, message, hint, debug } = args;
+  const { status, code, message, hint } = args;
   return NextResponse.json(
     {
       error: message,
       code,
       hint,
-      debug,
     },
     { status }
   );
@@ -78,7 +76,6 @@ export async function POST(req: Request) {
         code: "INVALID_JSON",
         message: "Invalid JSON body",
         hint: 'Send { "query": "..." } as JSON.',
-        debug: { error: toErrorMessage(err) },
       });
     }
 
@@ -116,10 +113,6 @@ export async function POST(req: Request) {
           code: "SUPABASE_RPC_NOT_FOUND",
           message: "Supabase RPC function match_prompts was not found",
           hint: 'Create the Postgres function (RPC) named "match_prompts" in Supabase, or update the route to call the correct function name.',
-          debug: {
-            supabaseCode: (error as any)?.code,
-            supabaseMessage: (error as any)?.message,
-          },
         });
       }
 
@@ -130,10 +123,6 @@ export async function POST(req: Request) {
           message: "Semantic search is misconfigured: prompts.tags column is missing",
           hint:
             'Fix in Supabase: update the "match_prompts" RPC function to stop referencing prompts.tags (this app no longer uses tags).',
-          debug: {
-            supabaseCode: (error as any)?.code,
-            supabaseMessage: (error as any)?.message,
-          },
         });
       }
 
@@ -142,10 +131,6 @@ export async function POST(req: Request) {
         code: "SUPABASE_RPC_ERROR",
         message: "Supabase semantic search RPC failed",
         hint: "Check Supabase logs for details.",
-        debug: {
-          supabaseCode: (error as any)?.code,
-          supabaseMessage: (error as any)?.message,
-        },
       });
     }
 
@@ -169,7 +154,6 @@ export async function POST(req: Request) {
           code: "OPENAI_AUTH_FAILED",
           message: "OpenAI authentication failed",
           hint: "Verify OPENAI_API_KEY is set and valid (and restart the dev server).",
-          debug: { upstreamStatus: openaiMeta.status, upstreamCode: openaiMeta.code },
         });
       }
       if (openaiMeta.status === 429) {
@@ -178,7 +162,6 @@ export async function POST(req: Request) {
           code: "OPENAI_RATE_LIMITED",
           message: "OpenAI rate limit exceeded",
           hint: "Wait a moment and retry, or reduce request volume.",
-          debug: { upstreamStatus: openaiMeta.status, upstreamCode: openaiMeta.code },
         });
       }
       return jsonError({
@@ -186,7 +169,6 @@ export async function POST(req: Request) {
         code: "OPENAI_ERROR",
         message: "OpenAI request failed",
         hint: "Check server logs for more details.",
-        debug: { upstreamStatus: openaiMeta.status, upstreamCode: openaiMeta.code },
       });
     }
 
@@ -196,7 +178,6 @@ export async function POST(req: Request) {
       code: "SEARCH_FAILED",
       message: "Search failed",
       hint: "Check server logs for details.",
-      debug: { error: toErrorMessage(error) },
     });
   }
 }
