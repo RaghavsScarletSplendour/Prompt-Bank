@@ -13,11 +13,15 @@ export default function ParticlesBackground({ particleCount = 60 }: ParticlesBac
   const [init, setInit] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
     }).then(() => {
-      setInit(true);
+      if (mounted) setInit(true);
     });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const options: ISourceOptions = useMemo(
@@ -28,7 +32,7 @@ export default function ParticlesBackground({ particleCount = 60 }: ParticlesBac
       },
       background: {
         color: {
-          value: "#00001",
+          value: "#000000",
         },
       },
       fpsLimit: 120,

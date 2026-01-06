@@ -1,13 +1,10 @@
 "use client";
 
 import { SignIn } from "@clerk/nextjs";
-import ParticlesBackground from "@/components/ParticlesBackground";
 
 export default function SignInPage() {
   return (
-    <>
-      <ParticlesBackground particleCount={25} />
-      <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
         <SignIn
           forceRedirectUrl="/dashboard"
           appearance={{
@@ -46,6 +43,5 @@ export default function SignInPage() {
           }}
         />
       </div>
-    </>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import ParticlesBackground from "@/components/ParticlesBackground";
 
 export default function BetaAccessPage() {
   const [code, setCode] = useState("");
@@ -39,9 +38,7 @@ export default function BetaAccessPage() {
   };
 
   return (
-    <>
-      <ParticlesBackground particleCount={25} />
-      <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="bg-[#0d1117] border border-white/10 rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
             {/* Header */}
@@ -146,6 +143,5 @@ export default function BetaAccessPage() {
           </div>
         </div>
       </div>
-    </>
   );
 }
