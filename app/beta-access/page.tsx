@@ -29,8 +29,8 @@ export default function BetaAccessPage() {
         return;
       }
 
-      // Success - redirect to dashboard
-      router.push("/dashboard");
+      // Success - redirect to gallery
+      router.push("/gallery");
     } catch (err) {
       setError("Something went wrong. Please try again.");
       setIsLoading(false);

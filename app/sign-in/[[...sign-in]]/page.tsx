@@ -6,7 +6,7 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
         <SignIn
-          forceRedirectUrl="/dashboard"
+          forceRedirectUrl="/gallery"
           appearance={{
             variables: {
               colorPrimary: "#0891b2",
